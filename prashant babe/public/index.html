@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrepVault - NextGen Placement & Interview Preparation Portal</title>
+  
+  <!-- Modern Typography (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Chart.js for Interactive Visual Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  
+  <!-- jsPDF for Client-side PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+  <!-- Ambient Gradient Background -->
+  <div class="ambient-glow"></div>
+
+  <div class="app-container">
+    <!-- ======================================================================
+         SIDEBAR NAVIGATION
+         ====================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <div class="brand-icon">
+            <i class="fas fa-cube"></i>
+          </div>
+          <span>PrepVault</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Core Platform</div>
+        <div class="nav-item active" data-route="dashboard">
+          <i class="fas fa-th-large"></i> <span>Dashboard</span>
+        </div>
+        <div class="nav-item" data-route="technical">
+          <i class="fas fa-code"></i> <span>Technical Prep</span>
+        </div>
+        <div class="nav-item" data-route="aptitude">
+          <i class="fas fa-brain"></i> <span>Aptitude & Tests</span>
+        </div>
+        <div class="nav-item" data-route="hr">
+          <i class="fas fa-user-tie"></i> <span>HR & STAR Method</span>
+        </div>
+
+        <div class="nav-section-title">Career Acceleration</div>
+        <div class="nav-item" data-route="mock-interview">
+          <i class="fas fa-robot"></i> <span>AI Mock Interview</span>
+        </div>
+        <div class="nav-item" data-route="resume-builder">
+          <i class="fas fa-file-invoice"></i> <span>Resume Builder</span>
+        </div>
+        <div class="nav-item" data-route="companies">
+          <i class="fas fa-building"></i> <span>Company Hub</span>
+        </div>
+        <div class="nav-item" data-route="resources">
+          <i class="fas fa-folder-open"></i> <span>Placement Resources</span>
+        </div>
+
+        <div class="nav-section-title">Community & Growth</div>
+        <div class="nav-item" data-route="leaderboard">
+          <i class="fas fa-trophy"></i> <span>Leaderboard</span>
+        </div>
+        <div class="nav-item" data-route="certificate">
+          <i class="fas fa-award"></i> <span>Readiness Certificate</span>
+        </div>
+        <div class="nav-item" id="nav-admin-link" data-route="admin" style="display: none;">
+          <i class="fas fa-shield-alt"></i> <span>Admin Control</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-quick-card glass-panel" style="cursor: pointer;" onclick="Auth.openAuthModal('login')">
+          <img id="sidebar-user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Avatar" class="user-avatar" />
+          <div class="user-info">
+            <div id="sidebar-user-name" class="user-name">Aarav Sharma</div>
+            <div id="sidebar-user-role" class="user-sub">Full Stack SDE</div>
+          </div>
+          <button class="nav-icon-btn" style="width: 28px; height: 28px; font-size: 0.75rem;" title="Account / Sign Out" onclick="event.stopPropagation(); Auth.logout();">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======================================================================
+         MAIN CONTENT WRAPPER
+         ====================================================================== -->
+    <div class="main-wrapper">
+      <!-- TOP NAVBAR -->
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" aria-label="Toggle Navigation">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-bar">
+            <i class="fas fa-search" style="color: var(--text-dim); font-size: 0.85rem;"></i>
+            <input type="text" id="global-search-input" placeholder="Search DSA, SQL, OS, Aptitude, Companies..." />
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <div class="readiness-pill">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Readiness: <strong id="nav-readiness-val">68%</strong></span>
+          </div>
+
+          <button class="nav-icon-btn" id="btn-theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
+            <i id="theme-icon" class="fas fa-sun"></i>
+          </button>
+
+          <button class="nav-icon-btn" title="Daily Notifications" onclick="App.showToast('You have a 5-day streak! Complete today\'s challenge to earn +50 XP.', 'info')">
+            <i class="fas fa-bell"></i>
+            <span class="notification-dot"></span>
+          </button>
+
+          <button class="btn btn-secondary btn-sm" onclick="Auth.openAuthModal('login')">
+            <i class="fas fa-user-circle"></i> Sign In / Switch User
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY (SPA VIEW CONTAINER) -->
+      <main class="content-body">
+        
+        <!-- ==================================================================
+             VIEW 1: DASHBOARD
+             ================================================================== -->
+        <section id="view-dashboard" class="view-section active">
+          <div class="dashboard-welcome">
+            <div>
+              <span class="welcome-tag"><i class="fas fa-sparkles"></i> TARGET ROLE: <span id="dash-target-role">Full Stack SDE</span></span>
+              <h2 class="welcome-title">Welcome back, <span id="dash-welcome-name">Aarav</span>! 👋</h2>
+              <p class="welcome-quote">"Success isn't always about greatness. It's about consistency. Consistent hard work leads to success."</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button class="btn btn-primary" onclick="App.navigateTo('mock-interview')">
+                <i class="fas fa-robot"></i> Start AI Mock Interview
+              </button>
+              <button class="btn btn-secondary" onclick="App.navigateTo('resume-builder')">
+                <i class="fas fa-file-pdf"></i> Build Resume
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+            <div class="glass-card kpi-card">
+              <div class="kpi-icon-wrap kpi-icon-blue">
+                <i class="fas fa-code"></i>
+              </div>
+              <div>
+                <div class="kpi-val" id="kpi-tech-solved">24</div>
+                <div class="kpi-label">Technical Solved</div>
+              </div>
+            </div>
+
+            <div class="glass-card kpi-card">
+              <div class="kpi-icon-wrap kpi-icon-purple">
+                <i class="fas fa-brain"></i>
+              </div>
+              <div>
+                <div class="kpi-val" id="kpi-apt-tests">6</div>
+                <div class="kpi-label">Aptitude Tests Taken</div>
+              </div>
+            </div>
+
+            <div class="glass-card kpi-card">
+              <div class="kpi-icon-wrap kpi-icon-emerald">
+                <i class="fas fa-user-check"></i>
+              </div>
+              <div>
+                <div class="kpi-val" id="kpi-mock-count">2</div>
+                <div class="kpi-label">Mock Interviews Done</div>
+              </div>
+            </div>
+
+            <div class="glass-card kpi-card">
+              <div class="kpi-icon-wrap kpi-icon-amber">
+                <i class="fas fa-fire"></i>
+              </div>
+              <div>
+                <div class="kpi-val" id="kpi-streak-val">5 Days 🔥</div>
+                <div class="kpi-label">Current Streak</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard Charts & Readiness Grid -->
+          <div class="dashboard-grid">
+            <!-- Weekly Activity Trend -->
+            <div class="glass-card chart-card">
+              <div class="chart-card-header">
+                <div>
+                  <h3>Weekly Practice Momentum</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Problems solved & tests completed over the past 7 days</div>
+                </div>
+                <span class="badge badge-accent">Active Week</span>
+              </div>
+              <div class="chart-container">
+                <canvas id="chart-weekly-activity"></canvas>
+              </div>
+            </div>
+
+            <!-- Readiness Score Meter -->
+            <div class="glass-card readiness-score-box">
+              <h3 style="font-size: 1.1rem;">Interview Readiness Score</h3>
+              <div class="readiness-meter">
+                <div class="readiness-value" id="dash-readiness-percent">68%</div>
+              </div>
+              <p class="readiness-label">Evaluated across DSA, CS fundamentals, aptitude & communication</p>
+              
+              <div class="readiness-breakdown">
+                <div>
+                  <div class="breakdown-row">
+                    <span>Technical & DSA</span>
+                    <strong id="val-fill-tech">60%</strong>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="bar-fill-tech" style="width: 60%; background: #3b82f6;"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="breakdown-row">
+                    <span>Aptitude & Reasoning</span>
+                    <strong id="val-fill-apt">60%</strong>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="bar-fill-apt" style="width: 60%; background: #8b5cf6;"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="breakdown-row">
+                    <span>Mock Interview Verbal</span>
+                    <strong id="val-fill-mock">40%</strong>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="bar-fill-mock" style="width: 40%; background: #10b981;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skills Radar & Activity Timeline Grid -->
+          <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+            <!-- Skill Competency Radar -->
+            <div class="glass-card chart-card">
+              <div class="chart-card-header">
+                <div>
+                  <h3>Domain Mastery Breakdown</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Candidate competency mapped to Tier-1 recruitment bars</div>
+                </div>
+              </div>
+              <div class="chart-container">
+                <canvas id="chart-skills-radar"></canvas>
+              </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="glass-card">
+              <div class="chart-card-header">
+                <div>
+                  <h3>Recent Activities</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Your latest milestones & assessment scores</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="App.navigateTo('technical')">View All</button>
+              </div>
+              <div class="activity-list" id="dash-activity-feed">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Challenge Banner -->
+          <div class="glass-card daily-challenge-card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+                <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;"><i class="fas fa-fire"></i> DAILY CHALLENGE</span>
+                <span class="badge badge-easy" id="dash-dc-difficulty">Easy</span>
+                <span class="badge badge-accent" id="dash-dc-points">+50 XP</span>
+              </div>
+              <h3 id="dash-dc-title" style="margin-bottom: 0.3rem;">Valid Parentheses with Multiple Bracket Types</h3>
+              <p id="dash-dc-desc" style="font-size: 0.85rem; max-width: 700px;">Given a string containing brackets, determine validity in O(N) using a stack.</p>
+            </div>
+            <button class="btn btn-primary" onclick="Leaderboard.solveDailyChallenge()">
+              <i class="fas fa-terminal"></i> Solve Today's Challenge
+            </button>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 2: TECHNICAL PREPARATION
+             ================================================================== -->
+        <section id="view-technical" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Technical Interview Preparation</h2>
+              <p class="section-subtitle">Curated question banks across C, C++, Java, Python, JavaScript, DSA, SQL, OS & Networks</p>
+            </div>
+            <div id="tech-question-count" style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">
+              Loading questions...
+            </div>
+          </div>
+
+          <!-- Category Filter Pills & Selectors -->
+          <div class="filter-tabs-row">
+            <div class="category-pills" id="tech-category-pills">
+              <button class="cat-pill active" data-cat="all">All Topics</button>
+              <button class="cat-pill" data-cat="dsa">DSA</button>
+              <button class="cat-pill" data-cat="C">C</button>
+              <button class="cat-pill" data-cat="C++">C++</button>
+              <button class="cat-pill" data-cat="Java">Java</button>
+              <button class="cat-pill" data-cat="Python">Python</button>
+              <button class="cat-pill" data-cat="JavaScript">JavaScript</button>
+              <button class="cat-pill" data-cat="sql">Database & SQL</button>
+              <button class="cat-pill" data-cat="os">Operating Systems</button>
+              <button class="cat-pill" data-cat="cn">Computer Networks</button>
+              <button class="cat-pill" data-cat="bookmarks"><i class="fas fa-bookmark"></i> Bookmarked</button>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <select class="glass-select" id="tech-difficulty-select" style="width: 140px;">
+                <option value="all">All Difficulties</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+
+              <select class="glass-select" id="tech-company-select" style="width: 150px;">
+                <option value="all">All Companies</option>
+                <option value="Amazon">Amazon</option>
+                <option value="Google">Google</option>
+                <option value="Microsoft">Microsoft</option>
+                <option value="TCS">TCS</option>
+                <option value="Infosys">Infosys</option>
+                <option value="Accenture">Accenture</option>
+                <option value="Cognizant">Cognizant</option>
+                <option value="Wipro">Wipro</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Questions Grid -->
+          <div class="questions-grid" id="technical-questions-list">
+            <!-- Dynamically populated by Technical.render() -->
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 3: APTITUDE PREPARATION
+             ================================================================== -->
+        <section id="view-aptitude" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Aptitude & Placement Assessments</h2>
+              <p class="section-subtitle">Timed quizzes with real-time countdown, score calculation, formulas & explanations</p>
+            </div>
+          </div>
+
+          <div class="aptitude-cards-grid" id="aptitude-quizzes-grid">
+            <!-- Dynamically populated by Aptitude.render() -->
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 4: HR INTERVIEW SECTION
+             ================================================================== -->
+        <section id="view-hr" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">HR & Behavioral Interview Preparation</h2>
+              <p class="section-subtitle">Master Frequently Asked Questions with High-Scoring Answers & the STAR Method</p>
+            </div>
+          </div>
+
+          <!-- STAR Framework Guide Banner -->
+          <div class="star-guide-banner">
+            <h3 style="color: var(--accent-violet); margin-bottom: 0.5rem;"><i class="fas fa-layer-group"></i> The STAR Method Framework</h3>
+            <p style="font-size: 0.9rem; color: var(--text-main);">Recruiters at Amazon, Google, and Microsoft evaluate behavioral answers against the STAR method to measure real impact and problem-solving maturity.</p>
+            
+            <div class="star-steps-grid">
+              <div class="star-step-card">
+                <div class="star-letter">S - Situation</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Set the context, project constraints, and specific challenge faced.</div>
+              </div>
+              <div class="star-step-card">
+                <div class="star-letter">T - Task</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Define your personal ownership and what needed to be achieved.</div>
+              </div>
+              <div class="star-step-card">
+                <div class="star-letter">A - Action</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Detail step-by-step initiatives YOU implemented to solve the issue.</div>
+              </div>
+              <div class="star-step-card">
+                <div class="star-letter">R - Result</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Quantify measurable results (%, latency, time saved, awards).</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- HR Questions & Sample Answers -->
+          <div id="hr-questions-container">
+            <!-- Dynamically populated by HR.render() -->
+          </div>
+
+          <!-- Interactive STAR Method Practice Builder -->
+          <div class="hr-interactive-builder glass-panel" id="hr-practice-builder">
+            <h3 style="color: var(--accent-primary); margin-bottom: 0.5rem;"><i class="fas fa-pencil-ruler"></i> Interactive STAR Worksheet Builder</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Select any question above or practice formulating your behavioral experience below for instant AI feedback.</p>
+
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+              <strong>Active Prompt:</strong> <span id="star-practice-prompt">Describe a tough technical challenge you overcame.</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 700; color: var(--accent-secondary); margin-bottom: 4px; display: block;">1. Situation (Context & Challenge):</label>
+                <textarea id="star-input-s" class="glass-textarea" rows="3" placeholder="During my capstone project, our WebSocket backend server crashed under 200 concurrent users..."></textarea>
+              </div>
+
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 700; color: var(--accent-secondary); margin-bottom: 4px; display: block;">2. Task (Your Direct Responsibility):</label>
+                <textarea id="star-input-t" class="glass-textarea" rows="3" placeholder="As backend lead, I had 48 hours to eliminate memory leaks and guarantee server stability..."></textarea>
+              </div>
+
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 700; color: var(--accent-secondary); margin-bottom: 4px; display: block;">3. Action (Step-by-step Technical Initiatives):</label>
+                <textarea id="star-input-a" class="glass-textarea" rows="3" placeholder="I profiled heap snapshots with Node inspector, isolated uncleaned socket listeners, and implemented Redis pub/sub..."></textarea>
+              </div>
+
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 700; color: var(--accent-secondary); margin-bottom: 4px; display: block;">4. Result (Quantified Metrics & Impact):</label>
+                <textarea id="star-input-r" class="glass-textarea" rows="3" placeholder="Memory usage dropped by 62%, the server handled 1,500 active users with zero packet drops, and won 1st place..."></textarea>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="HR.evaluateSTARPractice()">
+              <i class="fas fa-magic"></i> Evaluate STAR Answer with AI
+            </button>
+
+            <!-- Real-time Review Output -->
+            <div id="star-review-output" style="display: none; margin-top: 1.25rem; background: var(--bg-tertiary); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h4 style="color: var(--accent-success);"><i class="fas fa-check-circle"></i> STAR Evaluation Score: <span id="star-score-val">88/100</span></h4>
+                <span class="badge badge-easy">Strong Response</span>
+              </div>
+              <ul id="star-feedback-list" style="font-size: 0.85rem; padding-left: 1.2rem; display: grid; gap: 0.4rem;">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 5: AI MOCK INTERVIEW SYSTEM
+             ================================================================== -->
+        <section id="view-mock-interview" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">AI Mock Interview System</h2>
+              <p class="section-subtitle">Simulate real technical & behavioral rounds with speech recognition and instant evaluation reports</p>
+            </div>
+          </div>
+
+          <!-- Step 1: Configuration -->
+          <div id="mock-setup-step" class="glass-panel" style="padding: 2.5rem; max-width: 750px; margin: 0 auto; text-align: center;">
+            <div style="width: 70px; height: 70px; border-radius: 50%; background: var(--gradient-brand); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #fff; margin: 0 auto 1.5rem;">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h2>Configure Your AI Interview Simulation</h2>
+            <p style="margin: 0.5rem auto 2rem; max-width: 500px;">Select your desired engineering role. The AI interviewer will ask realistic questions, analyze your spoken or typed responses, and deliver a detailed scorecard.</p>
+
+            <div style="text-align: left; max-width: 450px; margin: 0 auto 2rem; display: grid; gap: 1rem;">
+              <div>
+                <label style="font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; display: block;">Target Engineering Role:</label>
+                <select class="glass-select" id="mock-role-select">
+                  <option value="Software Development Engineer (SDE)">Software Development Engineer (SDE)</option>
+                  <option value="Frontend Developer">Frontend Developer</option>
+                  <option value="Full Stack Developer">Full Stack Developer</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; display: block;">Target Company Style:</label>
+                <select class="glass-select" id="mock-company-style">
+                  <option value="Tier-1 Product (Amazon / Google / Microsoft)">Tier-1 Product (Amazon / Google / Microsoft)</option>
+                  <option value="IT Services (TCS / Infosys / Accenture)">IT Services (TCS / Infosys / Accenture)</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg" onclick="MockInterview.startInterview()">
+              <i class="fas fa-play"></i> Enter Interview Room
+            </button>
+          </div>
+
+          <!-- Step 2: Live Interview Room -->
+          <div id="mock-interview-room" class="mock-interview-room" style="display: none;">
+            <!-- Left Stage: AI Interviewer -->
+            <div class="interviewer-stage">
+              <div class="ai-avatar-circle" id="mock-ai-avatar">
+                <i class="fas fa-robot"></i>
+              </div>
+              <h3 style="margin-bottom: 4px;">AI Technical Interviewer</h3>
+              <div style="font-size: 0.8rem; color: var(--accent-secondary); margin-bottom: 1.5rem;">Google DeepMind Prep Engine</div>
+
+              <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: var(--radius-sm); padding: 1rem; width: 100%; text-align: left;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                  <span class="badge badge-accent" id="mock-q-category">Technical</span>
+                  <span style="font-size: 0.75rem; color: var(--text-dim);" id="mock-q-number">Question 1 of 3</span>
+                </div>
+                <div id="mock-q-text" style="font-size: 1rem; font-weight: 600; line-height: 1.5; color: var(--text-main);">
+                  Loading interview question...
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Stage: Candidate Answer Workspace -->
+            <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                  <h4>Your Response</h4>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <span id="mock-record-status" style="font-size: 0.78rem; color: var(--text-dim);">Click mic to speak or type directly</span>
+                    <button class="speech-record-btn" id="btn-mock-record" onclick="MockInterview.toggleRecording()" title="Toggle Microphone">
+                      <i class="fas fa-microphone"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <textarea id="mock-answer-input" class="glass-textarea" rows="6" placeholder="Speak your answer via microphone or type your complete explanation here..."></textarea>
+
+                <div style="margin-top: 1rem;">
+                  <button class="btn btn-primary" onclick="MockInterview.evaluateAnswer()">
+                    <i class="fas fa-brain"></i> Submit Answer for AI Critique
+                  </button>
+                </div>
+              </div>
+
+              <!-- Real-time Round Feedback Card -->
+              <div id="mock-round-feedback" style="display: none; background: var(--bg-tertiary); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 1.25rem; margin-top: 1.25rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <h4 style="color: var(--accent-success);"><i class="fas fa-chart-line"></i> Round Score: <span id="mock-round-score">85%</span></h4>
+                  <span class="badge badge-easy">Evaluated</span>
+                </div>
+                <p id="mock-critique-text" style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.6rem;"></p>
+                <div id="mock-detected-keywords" style="font-size: 0.8rem; margin-bottom: 1rem;"></div>
+
+                <button class="btn btn-secondary btn-sm" id="btn-mock-next" onclick="MockInterview.nextQuestion()">
+                  Next Question <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Final Comprehensive Report -->
+          <div id="mock-report-step" class="glass-panel" style="display: none; padding: 2.5rem; max-width: 800px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+              <div style="font-size: 3rem; color: #10b981; margin-bottom: 0.5rem;"><i class="fas fa-clipboard-check"></i></div>
+              <h2>Mock Interview Performance Report</h2>
+              <p style="color: var(--text-muted);">Comprehensive evaluation of technical accuracy, communication clarity and problem-solving instinct.</p>
+            </div>
+
+            <div style="display: flex; justify-content: space-around; background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
+              <div>
+                <div style="font-size: 2.4rem; font-weight: 800; color: var(--accent-primary);" id="mock-report-score">84%</div>
+                <div style="font-size: 0.82rem; color: var(--text-muted);">Overall Interview Score</div>
+              </div>
+              <div style="border-left: 1px solid var(--glass-border);"></div>
+              <div>
+                <div style="margin-top: 6px;">
+                  <span class="badge badge-easy" id="mock-report-verdict" style="font-size: 0.95rem; padding: 0.4rem 1rem;">RECOMMENDED FOR HIRE</span>
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 8px;">Recruiter Hiring Decision</div>
+              </div>
+            </div>
+
+            <div style="display: grid; gap: 1rem; margin-bottom: 2rem;">
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
+                  <span>Technical & Algorithmic Rigor</span>
+                  <strong>88%</strong>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 88%; background: #3b82f6;"></div></div>
+              </div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
+                  <span>Communication Clarity & Tone</span>
+                  <strong>85%</strong>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 85%; background: #8b5cf6;"></div></div>
+              </div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
+                  <span>Problem Decomposition Instinct</span>
+                  <strong>80%</strong>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 80%; background: #10b981;"></div></div>
+              </div>
+            </div>
+
+            <div style="text-align: center;">
+              <button class="btn btn-primary" onclick="MockInterview.resetInterview()">
+                <i class="fas fa-redo"></i> Retake Interview Simulation
+              </button>
+              <button class="btn btn-secondary" onclick="App.navigateTo('certificate')" style="margin-left: 0.75rem;">
+                <i class="fas fa-award"></i> View Readiness Certificate
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 6: RESUME BUILDER
+             ================================================================== -->
+        <section id="view-resume-builder" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Resume Builder & ATS Optimizer</h2>
+              <p class="section-subtitle">Real-time resume designer with multiple templates and client-side high-resolution PDF download</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="ResumeBuilder.saveResumeToProfile()">
+                <i class="fas fa-save"></i> Save Draft
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="ResumeBuilder.downloadPDF()">
+                <i class="fas fa-download"></i> Download as PDF
+              </button>
+            </div>
+          </div>
+
+          <!-- Template Switcher Bar -->
+          <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-dim);">Select Template:</span>
+            <button class="btn btn-outline btn-sm resume-tpl-btn active" data-tpl="modern" onclick="ResumeBuilder.changeTemplate('modern')">Modern Tech</button>
+            <button class="btn btn-outline btn-sm resume-tpl-btn" data-tpl="classic" onclick="ResumeBuilder.changeTemplate('classic')">Executive Serif</button>
+            <button class="btn btn-outline btn-sm resume-tpl-btn" data-tpl="minimal" onclick="ResumeBuilder.changeTemplate('minimal')">Silicon Valley Minimalist</button>
+          </div>
+
+          <div class="resume-workspace-grid">
+            <!-- Left Panel: Interactive Form -->
+            <div class="glass-panel resume-form-panel" style="padding: 1.5rem; max-height: 850px; overflow-y: auto;">
+              <h4 style="color: var(--accent-primary);"><i class="fas fa-user"></i> Personal Information</h4>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">Full Name</label><input type="text" id="rb-name" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">Email Address</label><input type="email" id="rb-email" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">Phone Number</label><input type="text" id="rb-phone" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">Location (City, Country)</label><input type="text" id="rb-location" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">LinkedIn Handle</label><input type="text" id="rb-linkedin" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">GitHub Handle</label><input type="text" id="rb-github" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              </div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Executive Summary</label><textarea id="rb-summary" class="glass-textarea" rows="2" oninput="ResumeBuilder.handleInputChange()"></textarea></div>
+
+              <h4 style="color: var(--accent-primary); margin-top: 1rem;"><i class="fas fa-graduation-cap"></i> Education</h4>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">Degree Program</label><input type="text" id="rb-edu-degree" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">Institution Name</label><input type="text" id="rb-edu-school" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">Graduation Year</label><input type="text" id="rb-edu-year" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">CGPA / Grade</label><input type="text" id="rb-edu-grade" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              </div>
+
+              <h4 style="color: var(--accent-primary); margin-top: 1rem;"><i class="fas fa-briefcase"></i> Work Experience / Internships</h4>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">Job Title</label><input type="text" id="rb-exp-title" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+                <div><label style="font-size:0.75rem; color:var(--text-dim);">Company Name</label><input type="text" id="rb-exp-comp" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              </div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Duration</label><input type="text" id="rb-exp-duration" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Achievement Bullet 1</label><input type="text" id="rb-exp-b1" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Achievement Bullet 2</label><input type="text" id="rb-exp-b2" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+
+              <h4 style="color: var(--accent-primary); margin-top: 1rem;"><i class="fas fa-laptop-code"></i> Technical Projects</h4>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Project 1 Title</label><input type="text" id="rb-proj1-title" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Technologies Used</label><input type="text" id="rb-proj1-tech" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Project Description</label><textarea id="rb-proj1-desc" class="glass-textarea" rows="2" oninput="ResumeBuilder.handleInputChange()"></textarea></div>
+
+              <div style="margin-top:0.5rem;"><label style="font-size:0.75rem; color:var(--text-dim);">Project 2 Title</label><input type="text" id="rb-proj2-title" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Technologies Used</label><input type="text" id="rb-proj2-tech" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Project Description</label><textarea id="rb-proj2-desc" class="glass-textarea" rows="2" oninput="ResumeBuilder.handleInputChange()"></textarea></div>
+
+              <h4 style="color: var(--accent-primary); margin-top: 1rem;"><i class="fas fa-tools"></i> Skills</h4>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Programming Languages</label><input type="text" id="rb-skills-lang" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Frameworks</label><input type="text" id="rb-skills-fw" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Developer Tools & Databases</label><input type="text" id="rb-skills-tools" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+              <div><label style="font-size:0.75rem; color:var(--text-dim);">Core Coursework</label><input type="text" id="rb-skills-course" class="glass-input" oninput="ResumeBuilder.handleInputChange()" /></div>
+            </div>
+
+            <!-- Right Panel: Real-time Live Resume Preview -->
+            <div style="overflow-x: auto;">
+              <div id="resume-live-preview" class="resume-preview-panel">
+                <!-- Dynamically rendered -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 7: COMPANY-WISE PREPARATION
+             ================================================================== -->
+        <section id="view-companies" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Company-Wise Placement Hub</h2>
+              <p class="section-subtitle">Selection processes, test patterns, past questions and insider tips for top recruiters</p>
+            </div>
+          </div>
+
+          <div class="companies-grid" id="companies-grid-container">
+            <!-- Dynamically populated by CompanyPrep.render() -->
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 8: PLACEMENT RESOURCES
+             ================================================================== -->
+        <section id="view-resources" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Placement Resources & Roadmaps</h2>
+              <p class="section-subtitle">Real candidate interview experiences, curated study materials, cheatsheets and roadmaps</p>
+            </div>
+          </div>
+
+          <div class="filter-tabs-row">
+            <div class="category-pills" id="resource-filter-pills">
+              <button class="cat-pill active" data-type="all">All Resources</button>
+              <button class="cat-pill" data-type="roadmap"><i class="fas fa-road"></i> Learning Roadmaps</button>
+              <button class="cat-pill" data-type="interview_experience"><i class="fas fa-user-graduate"></i> Interview Experiences</button>
+              <button class="cat-pill" data-type="study_material"><i class="fas fa-book"></i> Study Cheatsheets</button>
+            </div>
+          </div>
+
+          <div id="resources-list-container">
+            <!-- Dynamically populated by Resources.render() -->
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 9: LEADERBOARD & COMMUNITY
+             ================================================================== -->
+        <section id="view-leaderboard" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Placement Leaderboard</h2>
+              <p class="section-subtitle">Compete with fellow candidates, maintain streaks and earn badges</p>
+            </div>
+          </div>
+
+          <!-- Top 3 Podium -->
+          <div class="podium-container" id="leaderboard-podium">
+            <!-- Dynamically rendered by Leaderboard.render() -->
+          </div>
+
+          <!-- Standings Table -->
+          <div class="glass-panel" style="padding: 1.5rem; overflow-x: auto;">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Candidate</th>
+                  <th>Questions</th>
+                  <th>Streak</th>
+                  <th>Total Points</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 10: CERTIFICATE OF READINESS
+             ================================================================== -->
+        <section id="view-certificate" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Verified Certificate of Readiness</h2>
+              <p class="section-subtitle">Earned by demonstrating rigorous competence in coding, core CS, and mock interviews</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+              <button class="btn btn-secondary btn-sm" onclick="Certificate.downloadCertificatePNG()">
+                <i class="fas fa-image"></i> Download PNG
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="Certificate.downloadCertificatePDF()">
+                <i class="fas fa-file-pdf"></i> Download PDF
+              </button>
+            </div>
+          </div>
+
+          <div style="text-align: center; overflow-x: auto;">
+            <canvas id="certificate-canvas" style="max-width: 100%; height: auto; box-shadow: var(--glass-shadow); border-radius: var(--radius-sm);"></canvas>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VIEW 11: ADMIN PANEL
+             ================================================================== -->
+        <section id="view-admin" class="view-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Admin Management Portal</h2>
+              <p class="section-subtitle">Platform analytics, question bank authoring and candidate management</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="Admin.openAddQuestionModal()">
+              <i class="fas fa-plus"></i> Add New Question
+            </button>
+          </div>
+
+          <!-- Admin Stats Grid -->
+          <div class="admin-stats-grid">
+            <div class="glass-card">
+              <div style="font-size: 0.8rem; color: var(--text-dim);">Total Students</div>
+              <div style="font-size: 1.8rem; font-weight: 800; color: #3b82f6;" id="admin-stat-users">1,420</div>
+            </div>
+            <div class="glass-card">
+              <div style="font-size: 0.8rem; color: var(--text-dim);">Total Question Banks</div>
+              <div style="font-size: 1.8rem; font-weight: 800; color: #8b5cf6;" id="admin-stat-questions">154</div>
+            </div>
+            <div class="glass-card">
+              <div style="font-size: 0.8rem; color: var(--text-dim);">Tests & Quizzes Taken</div>
+              <div style="font-size: 1.8rem; font-weight: 800; color: #10b981;" id="admin-stat-quizzes">3,842</div>
+            </div>
+            <div class="glass-card">
+              <div style="font-size: 0.8rem; color: var(--text-dim);">Average Readiness</div>
+              <div style="font-size: 1.8rem; font-weight: 800; color: #f59e0b;" id="admin-stat-avg">72.4%</div>
+            </div>
+          </div>
+
+          <!-- Questions Management Table -->
+          <div class="glass-panel" style="padding: 1.5rem; margin-bottom: 2rem; overflow-x: auto;">
+            <h3 style="margin-bottom: 1rem;"><i class="fas fa-database"></i> Question Bank Manager</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>SubCategory</th>
+                  <th>Difficulty</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-questions-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- User Management Table -->
+          <div class="glass-panel" style="padding: 1.5rem; overflow-x: auto;">
+            <h3 style="margin-bottom: 1rem;"><i class="fas fa-users-cog"></i> User Management</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Candidate</th>
+                  <th>College</th>
+                  <th>Target Role</th>
+                  <th>Role</th>
+                  <th>Readiness</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 1: AUTHENTICATION (SIGN IN & REGISTER)
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-auth">
+    <div class="modal-content">
+      <button class="modal-close-btn">&times;</button>
+      <h2 id="auth-modal-title" style="margin-bottom: 0.5rem;">Welcome to PrepVault</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Access personalized interview tracking, AI mock assessments and resume export.</p>
+
+      <!-- 1-Click Demo Testing Buttons -->
+      <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 1.5rem;">
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.4rem;">
+          <i class="fas fa-bolt"></i> 1-CLICK INSTANT TEST DRIVE:
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="btn btn-primary btn-sm" onclick="Auth.loginAsStudent()">
+            <i class="fas fa-user-graduate"></i> Login as Student (Aarav)
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="Auth.loginAsAdmin()">
+            <i class="fas fa-user-shield"></i> Login as Admin
+          </button>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="auth-login-form" onsubmit="event.preventDefault(); Auth.login(document.getElementById('login-email').value, document.getElementById('login-pass').value);">
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 4px;">Email Address</label>
+          <input type="email" id="login-email" class="glass-input" value="student@prepvault.io" required />
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+          <label style="font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 4px;">Password</label>
+          <input type="password" id="login-pass" class="glass-input" value="Student@123" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          Sign In
+        </button>
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
+          Don't have an account? <a href="#" onclick="event.preventDefault(); Auth.openAuthModal('signup')">Sign Up Here</a>
+        </div>
+      </form>
+
+      <!-- Signup Form -->
+      <form id="auth-signup-form" style="display: none;" onsubmit="event.preventDefault(); Auth.register({ name: document.getElementById('reg-name').value, email: document.getElementById('reg-email').value, password: document.getElementById('reg-pass').value, college: document.getElementById('reg-college').value, targetRole: document.getElementById('reg-role').value });">
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 4px;">Full Name</label>
+          <input type="text" id="reg-name" class="glass-input" placeholder="e.g. Aarav Sharma" required />
+        </div>
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 4px;">Email Address</label>
+          <input type="email" id="reg-email" class="glass-input" placeholder="e.g. student@college.edu" required />
+        </div>
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 4px;">College / University</label>
+          <input type="text" id="reg-college" class="glass-input" placeholder="e.g. National Institute of Technology" />
+        </div>
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 4px;">Target Engineering Role</label>
+          <input type="text" id="reg-role" class="glass-input" placeholder="e.g. Full Stack SDE" />
+        </div>
+        <div style="margin-bottom: 1.25rem;">
+          <label style="font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 4px;">Password</label>
+          <input type="password" id="reg-pass" class="glass-input" placeholder="Minimum 6 characters" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          Create Account
+        </button>
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
+          Already registered? <a href="#" onclick="event.preventDefault(); Auth.openAuthModal('login')">Sign In</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 2: CODE PRACTICE WORKSPACE
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-code-workspace">
+    <div class="modal-content" style="max-width: 1100px; width: 95vw; height: 90vh;">
+      <button class="modal-close-btn">&times;</button>
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; margin-bottom: 15px;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span id="workspace-diff" class="badge badge-medium">Medium</span>
+          <h3 id="workspace-title" style="margin: 0; font-size: 1.25rem;">Problem Title</h3>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-outline btn-sm active" id="ws-tab-code" onclick="Technical.switchWorkspaceTab('code')">Code Editor</button>
+          <button class="btn btn-outline btn-sm" id="ws-tab-solution" onclick="Technical.switchWorkspaceTab('solution')">Solution & Analysis</button>
+        </div>
+      </div>
+
+      <div class="code-workspace-grid">
+        <!-- Problem Description Panel -->
+        <div class="problem-panel">
+          <div id="workspace-tags" style="margin-bottom: 1rem;"></div>
+          <div id="workspace-desc" style="line-height: 1.6; font-size: 0.9rem;"></div>
+        </div>
+
+        <!-- Code Editor & Runner Panel -->
+        <div class="editor-panel">
+          <!-- Code Tab View -->
+          <div id="ws-sec-code" style="display: flex; flex-direction: column; height: 100%; gap: 0.75rem;">
+            <div class="editor-toolbar">
+              <select id="workspace-lang-select" class="glass-select" style="width: 140px; padding: 0.35rem 0.75rem;" onchange="Technical.handleLanguageChange()">
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+                <option value="sql">SQL</option>
+              </select>
+              
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-secondary btn-sm" onclick="Technical.runCodeTests()">
+                  <i class="fas fa-play"></i> Run Test Cases
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="Technical.submitSolution()">
+                  <i class="fas fa-cloud-upload-alt"></i> Submit Code
+                </button>
+              </div>
+            </div>
+
+            <textarea id="workspace-code-editor" class="code-textarea" spellcheck="false"></textarea>
+
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;">
+                <i class="fas fa-terminal"></i> Execution Console / Test Harness Output
+              </div>
+              <div id="workspace-terminal" class="terminal-output"></div>
+            </div>
+          </div>
+
+          <!-- Solution & Explanation Tab View -->
+          <div id="ws-sec-solution" style="display: none; height: 100%; overflow-y: auto;">
+            <h4 style="color: var(--accent-success); margin-bottom: 0.5rem;"><i class="fas fa-check-double"></i> Optimal Solution Code</h4>
+            <pre style="background: #0d1117; color: #58a6ff; padding: 1rem; border-radius: var(--radius-sm); font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin-bottom: 1rem;"><code id="workspace-solution"></code></pre>
+
+            <h4 style="color: var(--accent-primary); margin-bottom: 0.5rem;"><i class="fas fa-info-circle"></i> Complexity Invariant & Analysis</h4>
+            <div id="workspace-explanation" style="font-size: 0.88rem; line-height: 1.6; color: var(--text-main);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 3: TIMED QUIZ RUNNER
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-quiz-runner">
+    <div class="modal-content" style="max-width: 800px; width: 90vw;">
+      <div class="quiz-runner-container">
+        <div class="quiz-header-bar">
+          <div>
+            <h3 id="quiz-modal-title" style="margin-bottom: 2px;">Quantitative Aptitude</h3>
+            <span style="font-size: 0.8rem; color: var(--text-muted);" id="quiz-q-number">Question 1 of 4</span>
+          </div>
+          <div class="quiz-timer-badge">
+            <i class="fas fa-stopwatch"></i>
+            <span id="quiz-timer-display">15:00</span>
+          </div>
+        </div>
+
+        <!-- Question Palette Navigator -->
+        <div class="question-palette" id="quiz-palette-container"></div>
+
+        <!-- Active Question Text -->
+        <div style="background: rgba(99, 102, 241, 0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 1.25rem;">
+          <h4 id="quiz-q-text" style="font-size: 1.05rem; line-height: 1.5; font-weight: 600;">Question Text</h4>
+        </div>
+
+        <!-- Radio Options -->
+        <div class="quiz-options-list" id="quiz-options-container"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--glass-border); padding-top: 1rem;">
+          <button class="btn btn-secondary" id="btn-quiz-prev" onclick="Aptitude.prevQuestion()">
+            <i class="fas fa-arrow-left"></i> Previous
+          </button>
+          <button class="btn btn-primary" id="btn-quiz-next" onclick="Aptitude.nextQuestion()">
+            Next <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 4: QUIZ RESULT & FORMULA REVIEW
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-quiz-result">
+    <div class="modal-content" style="max-width: 750px;">
+      <button class="modal-close-btn">&times;</button>
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <h2 id="quiz-res-title">Aptitude Assessment Report</h2>
+        <div style="font-size: 2.2rem; font-weight: 800; color: var(--accent-primary); margin: 0.5rem 0;" id="quiz-res-score">100%</div>
+        <div style="display: flex; justify-content: center; gap: 0.75rem; align-items: center;">
+          <span class="badge badge-easy" id="quiz-res-verdict">PASSED</span>
+          <span class="badge badge-accent" id="quiz-res-points">+60 XP</span>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom: 0.75rem;"><i class="fas fa-check-circle"></i> Question-by-Question Review & Formulas</h4>
+      <div id="quiz-res-review-container" style="max-height: 400px; overflow-y: auto;"></div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 5: COMPANY DETAILS BLUEPRINT
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-company-detail">
+    <div class="modal-content" style="max-width: 850px;">
+      <button class="modal-close-btn">&times;</button>
+      <div style="margin-bottom: 1rem;">
+        <span class="badge badge-accent" id="company-modal-tier" style="margin-bottom: 0.4rem;">Tier</span>
+        <h2 id="company-modal-title">Company Blueprint</h2>
+      </div>
+      <p id="company-modal-about" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.5rem;"></p>
+
+      <h4 style="color: var(--accent-primary); margin-bottom: 0.5rem;"><i class="fas fa-layer-group"></i> Recruitment Round Progression</h4>
+      <div class="rounds-timeline" id="company-rounds-timeline"></div>
+
+      <h4 style="color: var(--accent-secondary); margin: 1.25rem 0 0.5rem;"><i class="fas fa-book"></i> Syllabus Focus Areas</h4>
+      <div id="company-syllabus-list"></div>
+
+      <h4 style="color: var(--accent-violet); margin: 1.25rem 0 0.5rem;"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h4>
+      <div id="company-faqs-list"></div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem; font-size: 0.82rem;">
+        <div style="background: rgba(16,185,129,0.06); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid rgba(16,185,129,0.2);">
+          <strong style="color: #10b981;"><i class="fas fa-check"></i> Interviewer Dos:</strong>
+          <ul id="company-dos-list" style="padding-left: 1.2rem; margin-top: 0.3rem;"></ul>
+        </div>
+        <div style="background: rgba(239,68,68,0.06); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid rgba(239,68,68,0.2);">
+          <strong style="color: #ef4444;"><i class="fas fa-times"></i> Common Pitfalls (Don'ts):</strong>
+          <ul id="company-donts-list" style="padding-left: 1.2rem; margin-top: 0.3rem;"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 6: RESOURCE & EXPERIENCE DETAIL
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-resource-detail">
+    <div class="modal-content" style="max-width: 800px;">
+      <button class="modal-close-btn">&times;</button>
+      <h2 id="resource-modal-title" style="margin-bottom: 1rem;">Resource Title</h2>
+      <div id="resource-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 7: ADMIN ADD QUESTION
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-admin-add-question">
+    <div class="modal-content" style="max-width: 650px;">
+      <button class="modal-close-btn">&times;</button>
+      <h3 style="margin-bottom: 1rem;"><i class="fas fa-plus-circle"></i> Add Question to PrepVault Database</h3>
+      
+      <div style="display: grid; gap: 0.85rem;">
+        <div>
+          <label style="font-size:0.8rem; font-weight:600;">Question Title</label>
+          <input type="text" id="form-add-q-title" class="glass-input" placeholder="e.g. Invert a Binary Tree" />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:600;">Category</label>
+            <select id="form-add-q-cat" class="glass-select">
+              <option value="dsa">DSA</option>
+              <option value="programming">Programming</option>
+              <option value="sql">SQL</option>
+              <option value="os">OS</option>
+              <option value="cn">Networks</option>
+              <option value="hr">HR</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:600;">SubCategory / Language</label>
+            <input type="text" id="form-add-q-subcat" class="glass-input" placeholder="e.g. Trees / Python" />
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:600;">Difficulty</label>
+            <select id="form-add-q-diff" class="glass-select">
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:0.8rem; font-weight:600;">Question Description</label>
+          <textarea id="form-add-q-desc" class="glass-textarea" rows="3" placeholder="Detailed problem statement and constraints..."></textarea>
+        </div>
+
+        <div>
+          <label style="font-size:0.8rem; font-weight:600;">Sample Solution Code</label>
+          <textarea id="form-add-q-sol" class="glass-textarea" rows="4" placeholder="// Optimal reference solution..."></textarea>
+        </div>
+
+        <button class="btn btn-primary" onclick="Admin.saveNewQuestion()" style="margin-top: 0.5rem;">
+          <i class="fas fa-check"></i> Save Question
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ======================================================================
+       APPLICATION JAVASCRIPT MODULES
+       ====================================================================== -->
+  <script src="js/seedData.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/technical.js"></script>
+  <script src="js/aptitude.js"></script>
+  <script src="js/hr.js"></script>
+  <script src="js/mockInterview.js"></script>
+  <script src="js/resumeBuilder.js"></script>
+  <script src="js/companyPrep.js"></script>
+  <script src="js/resources.js"></script>
+  <script src="js/leaderboard.js"></script>
+  <script src="js/certificate.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

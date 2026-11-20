@@ -1,0 +1,735 @@
+/* ==========================================================================
+   PREPVAULT COMPONENTS STYLESHEET
+   Component specific styling for Dashboard, Code Editor, Quiz Runner,
+   Mock Interview Room, Resume Builder, Company Hub & Admin Panel
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. DASHBOARD COMPONENTS
+   -------------------------------------------------------------------------- */
+.dashboard-welcome {
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.08) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.welcome-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--accent-primary);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.welcome-title {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+.welcome-quote {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 550px;
+}
+
+/* KPI Cards Grid */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+}
+.kpi-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+.kpi-icon-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.kpi-icon-purple { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+.kpi-icon-emerald { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.kpi-icon-amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
+.kpi-val {
+  font-size: 1.65rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.kpi-label {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+/* Dashboard Charts Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.chart-card {
+  display: flex;
+  flex-direction: column;
+}
+.chart-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.chart-container {
+  position: relative;
+  height: 280px;
+  width: 100%;
+}
+
+/* Readiness Gauge Score */
+.readiness-score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+}
+.readiness-meter {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+.readiness-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--accent-primary);
+}
+.readiness-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.readiness-breakdown {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-top: 0.3rem;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.6s ease;
+}
+
+/* Daily Challenge Card */
+.daily-challenge-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(239, 68, 68, 0.05) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  margin-bottom: 2rem;
+}
+
+/* Activity Feed */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  font-size: 0.88rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+.activity-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.activity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  margin-top: 5px;
+}
+.activity-time {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+/* --------------------------------------------------------------------------
+   2. TECHNICAL PREPARATION & CODE RUNNER
+   -------------------------------------------------------------------------- */
+.filter-tabs-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.category-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.cat-pill {
+  padding: 0.45rem 1rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.cat-pill:hover, .cat-pill.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #fff;
+}
+
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+.question-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.question-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+.question-card-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+.question-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.mini-tag {
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-dim);
+}
+
+/* Code Practice Modal / Workspace */
+.code-workspace-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 1.5rem;
+  height: calc(85vh - 70px);
+}
+.problem-panel {
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+.editor-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+}
+.editor-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.code-textarea {
+  flex: 1;
+  background: #0d1117;
+  color: #58a6ff;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border);
+  outline: none;
+  resize: none;
+  white-space: pre;
+}
+.terminal-output {
+  height: 140px;
+  background: #090d16;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-family: 'Consolas', monospace;
+  font-size: 0.82rem;
+  color: #10b981;
+  overflow-y: auto;
+}
+
+/* --------------------------------------------------------------------------
+   3. APTITUDE PREPARATION & QUIZ RUNNER
+   -------------------------------------------------------------------------- */
+.aptitude-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.aptitude-topic-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 4px solid var(--accent-primary);
+}
+
+/* Quiz Active Runner Modal */
+.quiz-runner-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.quiz-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--glass-border);
+  margin-bottom: 1.5rem;
+}
+.quiz-timer-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.question-palette {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.palette-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.palette-btn.active {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.25);
+  color: var(--accent-primary);
+}
+.palette-btn.answered {
+  background: var(--accent-success);
+  color: #fff;
+  border-color: var(--accent-success);
+}
+
+.quiz-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.quiz-option-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.quiz-option-item:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--accent-primary);
+}
+.quiz-option-item.selected {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  font-weight: 600;
+}
+.option-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+}
+.quiz-option-item.selected .option-circle {
+  border-color: var(--accent-primary);
+  background: var(--accent-primary);
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   4. HR INTERVIEW & STAR FRAMEWORK
+   -------------------------------------------------------------------------- */
+.star-guide-banner {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.08) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.star-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.star-step-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+}
+.star-letter {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent-violet);
+}
+
+.hr-interactive-builder {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. AI MOCK INTERVIEW SYSTEM
+   -------------------------------------------------------------------------- */
+.mock-interview-room {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 1.5rem;
+}
+.interviewer-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+}
+.ai-avatar-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--gradient-brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #fff;
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.ai-avatar-circle.speaking::after {
+  content: '';
+  position: absolute;
+  top: -8px; left: -8px; right: -8px; bottom: -8px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-secondary);
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+.speech-record-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.15);
+  border: 2px solid var(--accent-danger);
+  color: var(--accent-danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.speech-record-btn.recording {
+  background: var(--accent-danger);
+  color: #fff;
+  animation: pulse 1.2s infinite;
+}
+
+/* --------------------------------------------------------------------------
+   6. RESUME BUILDER
+   -------------------------------------------------------------------------- */
+.resume-workspace-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  gap: 1.5rem;
+}
+.resume-form-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.resume-preview-panel {
+  background: #ffffff;
+  color: #1f2937;
+  border-radius: var(--radius-md);
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  min-height: 750px;
+  font-family: 'Inter', serif;
+  transform-origin: top center;
+}
+.resume-header {
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+.resume-name {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #111827;
+}
+.resume-contacts {
+  font-size: 0.82rem;
+  color: #4b5563;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.3rem;
+}
+.resume-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #1e40af;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.2rem;
+  margin: 1.25rem 0 0.6rem;
+  letter-spacing: 0.05em;
+}
+
+/* --------------------------------------------------------------------------
+   7. COMPANY PREPARATION HUB
+   -------------------------------------------------------------------------- */
+.companies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+.company-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.company-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.company-logo-img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+/* Company Round Timeline */
+.rounds-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--accent-primary);
+}
+.round-timeline-item {
+  position: relative;
+}
+.round-timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.95rem;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  border: 2px solid var(--bg-primary);
+}
+
+/* --------------------------------------------------------------------------
+   8. LEADERBOARD & PODIUM
+   -------------------------------------------------------------------------- */
+.podium-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.podium-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.podium-rank-1 { order: 2; height: 180px; }
+.podium-rank-2 { order: 1; height: 140px; }
+.podium-rank-3 { order: 3; height: 120px; }
+.podium-pillar {
+  width: 110px;
+  background: var(--gradient-brand);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-top: 0.5rem;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.leaderboard-table th, .leaderboard-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+/* --------------------------------------------------------------------------
+   9. CERTIFICATE CONTAINER
+   -------------------------------------------------------------------------- */
+.certificate-preview-box {
+  background: #fdfbf7;
+  color: #1e293b;
+  border: 12px solid #1e3a8a;
+  border-radius: var(--radius-sm);
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+  max-width: 800px;
+  margin: 1.5rem auto;
+  position: relative;
+}
+.cert-seal {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 1rem auto;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   10. ADMIN PANEL
+   -------------------------------------------------------------------------- */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.data-table th, .data-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--glass-border);
+  font-size: 0.88rem;
+}
+.data-table th {
+  color: var(--text-dim);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
